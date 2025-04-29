@@ -1,24 +1,21 @@
 name: Trigger auto deployment for fastapi-app
 
-# When this action will be executed
 on:
-  # Automatically trigger it when detected changes in repo
   push:
     branches: 
       [ main ]
     paths:
-    - '**'
-    - '.github/workflows/fastapi-app-AutoDeployTrigger-c8984aac-7538-4a24-8777-0a44b1119ccd.yml'
+      - '**'
+      - '.github/workflows/fastapi-app-AutoDeployTrigger-c8984aac-7538-4a24-8777-0a44b1119ccd.yml'
 
-  # Allow manual trigger 
   workflow_dispatch:      
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions: 
-      id-token: write #This is required for requesting the OIDC JWT Token
-      contents: read #Required when GH token is used to authenticate with private repo
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout to the branch
@@ -35,14 +32,11 @@ jobs:
         uses: azure/container-apps-deploy-action@v2
         with:
           appSourcePath: ${{ github.workspace }}/project
-          _dockerfilePathKey_: _dockerfilePath_
           registryUrl: dockerregistry643.azurecr.io
           registryUsername: ${{ secrets.FASTAPIAPP_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.FASTAPIAPP_REGISTRY_PASSWORD }}
           containerAppName: fastapi-app
           resourceGroup: tr-stage10-rg
           imageToBuild: dockerregistry643.azurecr.io/fastapi-app:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
-
-
+          environmentVariables: |
+            KEY_VAULT_NAME=${{ secrets.KEY_VAULT_NAME }}
