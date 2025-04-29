@@ -1,5 +1,6 @@
-chromadb
+chromadb==0.4.24 
 streamlit
 requests
 azure-identity
 azure-keyvault-secrets
+Pillow
