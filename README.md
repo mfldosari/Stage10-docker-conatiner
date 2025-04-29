@@ -20,7 +20,7 @@ This project builds a secure and scalable **chatbot backend infrastructure** on 
 
 ## 📌 Architecture
 
-![Azure Chatbot Architecture](images/infra.png)  
+![Azure Chatbot Architecture](infra.png)  
 *Diagram showing Container App, VM in subnet, PostgreSQL, Cosmos DB, Storage, Key Vault, and NSG inside a VNet.*
 
 
