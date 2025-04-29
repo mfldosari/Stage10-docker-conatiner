@@ -233,7 +233,7 @@ if st.session_state["current_chat"]:
                 avatar_path = avatar_updater("user")
             avatar_img = Image.open(avatar_path)
             with st.chat_message(role, avatar=avatar_img):
-                st.caption(f"{message["time"]}")
+                st.caption(f"{message['time']}")
                 st.markdown(f'{message["content"]}')
 
         # Chat input section
