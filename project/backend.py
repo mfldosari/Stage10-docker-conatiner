@@ -24,6 +24,7 @@ from azure.keyvault.secrets import SecretClient
 import chromadb
 
 load_dotenv()
+
 keyVaultName = os.environ.get("KEY_VAULT_NAME")
 KVUri = f"https://{keyVaultName}.vault.azure.net"
 
