@@ -5,3 +5,4 @@ azure-identity
 azure-keyvault-secrets
 Pillow
 numpy==1.26.4
+docker.io

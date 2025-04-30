@@ -1,0 +1,23 @@
+keyVaultName = os.environ.get("KEY_VAULT_NAME")
+KVUri = f"https://{keyVaultName}.vault.azure.net"
+
+credential = DefaultAzureCredential()
+kv_client = SecretClient(vault_url=KVUri, credential=credential)
+
+DB_NAME = kv_client.get_secret('PROJ-DB-NAME').value
+DB_USER = kv_client.get_secret('PROJ-DB-USER').value
+DB_PASSWORD = kv_client.get_secret('PROJ-DB-PASSWORD').value
+DB_HOST = kv_client.get_secret('PROJ-DB-HOST').value
+DB_PORT = kv_client.get_secret('PROJ-DB-PORT').value
+OPENAI_API_KEY = kv_client.get_secret('PROJ-OPENAI-API-KEY').value
+AZURE_STORAGE_SAS_URL = kv_client.get_secret('PROJ-AZURE-STORAGE-SAS-URL').value
+AZURE_STORAGE_CONTAINER = kv_client.get_secret('PROJ-AZURE-STORAGE-CONTAINER').value
+CHROMADB_HOST = kv_client.get_secret('PROJ-CHROMADB-HOST').value
+CHROMADB_PORT = kv_client.get_secret('PROJ-CHROMADB-PORT').value
+cosmos_endpoint = kv_client.get_secret('PROJ-COSMOSDB-ENDPOINT').value
+cosmos_key = kv_client.get_secret('PROJ-COSMOSDB-KEY').value
+cosmos_database = kv_client.get_secret('PROJ-COSMOSDB-DATABASE').value
+cosmos_container = kv_client.get_secret('PROJ-COSMOSDB-CONTAINER').value
+###
+
+

@@ -24,7 +24,6 @@ from azure.keyvault.secrets import SecretClient
 import chromadb
 
 load_dotenv()
-
 keyVaultName = os.environ.get("KEY_VAULT_NAME")
 KVUri = f"https://{keyVaultName}.vault.azure.net"
 
@@ -45,7 +44,6 @@ cosmos_endpoint = kv_client.get_secret('PROJ-COSMOSDB-ENDPOINT').value
 cosmos_key = kv_client.get_secret('PROJ-COSMOSDB-KEY').value
 cosmos_database = kv_client.get_secret('PROJ-COSMOSDB-DATABASE').value
 cosmos_container = kv_client.get_secret('PROJ-COSMOSDB-CONTAINER').value
-
 
 DB_CONFIG = {
     "dbname": DB_NAME,
@@ -68,6 +66,7 @@ vectorstore = Chroma(
     client=chroma_client,
     collection_name="langchain",
     embedding_function=embedding_function,
+    
 )
 
 storage_account_sas_url = AZURE_STORAGE_SAS_URL
