@@ -6,17 +6,17 @@ runcmd:
   - usermod -aG docker azureuser
 
   # Setup GitHub token in bashrc for both users
-  - echo "export GITHUB_TOKEN=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" >> /home/azureuser/.bashrc
-  - echo "export GITHUB_TOKEN=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" | sudo tee -a /root/.bashrc
+  - echo "export GITHUB_TOKEN=<githubtoken>" >> /home/azureuser/.bashrc
+  - echo "export GITHUB_TOKEN=<githubtoken>" | sudo tee -a /root/.bashrc
   - chown azureuser:azureuser /home/azureuser/.bashrc
 
   # Run all following commands as azureuser
   - sudo -u azureuser bash -c '
       cd /home/azureuser &&
-      git clone -b main "https://${GITHUB_TOKEN}@github.com/mfldosari/Stage10-docker-conatiner" &&
-      cd Stage10-docker-conatiner/project &&
+      git clone -b main "https://${GITHUB_TOKEN}@<github repo>" &&
+      cd <repo> &&
 
-      echo "KEY_VAULT_NAME=chatbot2-keyvault" > .env &&
+      echo "KEY_VAULT_NAME=<key vault name>" > .env &&
 
       python3 -m venv myenv &&
       source myenv/bin/activate &&
