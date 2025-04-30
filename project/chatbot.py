@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 import os
+from datetime import datetime
+from PIL import Image
+
 
 # Backend URLs define
 # BASE_URL = "http://127.0.0.1:8000/"
