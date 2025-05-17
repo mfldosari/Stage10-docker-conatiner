@@ -1,28 +1,31 @@
 #cloud-config
 runcmd:
   - apt update && apt install -y python3-pip python3-venv git docker.io
+  - G_TOKEN="..."
+  - REPO_NAME="Stage10-docker-conatiner/project"
+  - KEY_VAULT_NAME="chatbot5-keyvault"
+  - USERNAME="azureuser"
+
+  - echo "export GITHUB_TOKEN=$G_TOKEN" >> /home/$USERNAME/.bashrc
+  - echo "export GITHUB_TOKEN=$G_TOKEN" | sudo tee -a /root/.bashrc
+  - chown $USERNAME:$USERNAME /home/$USERNAME/.bashrc
 
   # Allow azureuser to use Docker without sudo
-  - usermod -aG docker azureuser
-
-  # Setup GitHub token in bashrc for both users
-  - echo "export GITHUB_TOKEN=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" >> /home/azureuser/.bashrc
-  - echo "export GITHUB_TOKEN=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" | sudo tee -a /root/.bashrc
-  - chown azureuser:azureuser /home/azureuser/.bashrc
+  - usermod -aG docker $USERNAME
 
   # Run all following commands as azureuser
-  - sudo -u azureuser bash -c '
-      cd /home/azureuser &&
-      git clone -b main "https://${GITHUB_TOKEN}@github.com/mfldosari/Stage10-docker-conatiner" &&
-      cd Stage10-docker-conatiner/project &&
+  - sudo -u $USERNAME bash -c "
+      cd /home/$USERNAME &&
+      git clone -b main https://$G_TOKEN@github.com/mfldosari/Stage10-docker-conatiner.git &&
+      cd $REPO_NAME &&
 
-      echo "KEY_VAULT_NAME=chatbot2-keyvault" > .env &&
+      echo "KEY_VAULT_NAME=chatbot5-keyvault" > .env &&
 
       python3 -m venv myenv &&
       source myenv/bin/activate &&
       pip install --upgrade pip &&
       pip install -r requirements.vm.txt
-    '
+    "
 
   # Create ChromaDB systemd service using Docker
   - |
@@ -51,9 +54,9 @@ runcmd:
 
     [Service]
     Type=simple
-    User=azureuser
-    WorkingDirectory=/home/azureuser/Stage10-docker-conatiner/project
-    ExecStart=/home/azureuser/Stage10-docker-conatiner/project/myenv/bin/streamlit run chatbot.py
+    User=$USERNAME 
+    WorkingDirectory=/home/$USERNAME/$REPO_NAME
+    ExecStart=/home/$USERNAME/$REPO_NAME/myenv/bin/streamlit run chatbot.py
     Restart=always
 
     [Install]
