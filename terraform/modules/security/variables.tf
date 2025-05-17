@@ -70,12 +70,6 @@ variable "PROJ_OPENAI_API_KEY" {
   sensitive   = true
 }
 
-# Azure Storage SAS URL and Container
-variable "PROJ_AZURE_STORAGE_SAS_URL" {
-  description = "The Azure Storage SAS URL to store in Key Vault"
-  type        = string
-  sensitive   = true
-}
 
 variable "PROJ_AZURE_STORAGE_CONTAINER" {
   description = "The Azure Storage Container to store in Key Vault"

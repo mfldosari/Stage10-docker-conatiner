@@ -33,10 +33,7 @@ output "chroma_host" {
   #sensitive = true
 }
 
-output "storgaeaccunturl" {
-  value     = module.storage.sas_url
-  sensitive = true
-}
+
 output "storgaeaccuntconatinername" {
   value = var.storage_container_name
   #sensitive = true
@@ -55,7 +52,7 @@ output "databaseusername" {
 
 output "databasepass" {
   value = var.PROJ_DB_PASSWORD
-  #sensitive = true
+  sensitive = true
 }
 
 output "databasEPORT" {

@@ -104,12 +104,6 @@ resource "azurerm_key_vault_secret" "openai_key" {
   depends_on = [azurerm_role_assignment.kv_admin]     # Ensure the role assignment is applied before this
 }
 
-resource "azurerm_key_vault_secret" "sas_url" {
-  name         = "PROJ-AZURE-STORAGE-SAS-URL"         # Name of the secret for the Azure Storage SAS URL
-  value        = var.PROJ_AZURE_STORAGE_SAS_URL       # Value for the secret (from variable)
-  key_vault_id = azurerm_key_vault.kv.id              # Reference to the Key Vault
-  depends_on = [azurerm_role_assignment.kv_admin]     # Ensure the role assignment is applied before this
-}
 
 resource "azurerm_key_vault_secret" "container_name" {
   name         = "PROJ-AZURE-STORAGE-CONTAINER"       # Name of the secret for the storage container name

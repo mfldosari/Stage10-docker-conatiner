@@ -24,6 +24,7 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_all" {
 
 # Local execution to create a table (requires psql locally)
 resource "null_resource" "postgresql_setup" {
+  depends_on = [ azurerm_postgresql_flexible_server.this ]
   triggers = {
     server = azurerm_postgresql_flexible_server.this.name
   }
@@ -38,7 +39,9 @@ CREATE TABLE IF NOT EXISTS advanced_chats (
   last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   pdf_path TEXT,
   pdf_name TEXT,
-  pdf_uuid TEXT
+  pdf_uuid TEXT,
+  image_url text NULL,
+  image_name text NULL
 );
 "
 EOT

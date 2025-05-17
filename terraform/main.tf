@@ -18,17 +18,14 @@ module "database" {
 }
 
 module "storage" {
+  depends_on = [ module.security ]
   # Storage module to create and configure Azure storage account and container
   source                           = "./modules/storage"
   rg_name                          = module.resource_group.rg_name
   location                         = module.resource_group.location
-  container_date                   = var.container_date
-  container_access_type            = var.container_access_type
-  tag                              = var.tag
   storage_account_name             = var.storage_account_name
-  storage_account_tier             = var.storage_account_tier
-  storage_account_replication_type = var.storage_account_replication_type
   storage_container_name           = var.storage_container_name
+  keyvaultname                    = var.keyvault_name
 }
 
 
@@ -71,7 +68,6 @@ module "security" {
   vm_id                        = module.compute.vm_principal_id
   tenant_id                    = var.tenant_id
   my_object_id                 = var.object_id
-  PROJ_AZURE_STORAGE_SAS_URL   = module.storage.sas_url
   PROJ_AZURE_STORAGE_CONTAINER = var.storage_container_name
   PROJ_CHROMADB_HOST           = module.network.public_ip_address
   PROJ_COSMOSDB_DATABASE       = var.PROJ_COSMOSDB_DATABASE_NAME
@@ -88,3 +84,4 @@ module "security" {
   PROJ_AZURE_CONTAINER_APP_URL = "https://${module.compute.url_fastapi_https}/"
   PROJ_CHROMADB_PORT           = var.PROJ_CHROMADB_PORT
 }
+

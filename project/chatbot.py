@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import streamlit as st
 import uuid
 import requests
-from PIL import Image  # For loading avatar images
+from PIL import Image  
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 

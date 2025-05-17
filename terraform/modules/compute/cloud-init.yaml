@@ -1,9 +1,9 @@
 #cloud-config
 runcmd:
   - apt update && apt install -y python3-pip python3-venv git docker.io
-  - G_TOKEN="..."
+  - G_TOKEN="ghp_****"
   - REPO_NAME="Stage10-docker-conatiner/project"
-  - KEY_VAULT_NAME="chatbot5-keyvault"
+  - KEY_VAULT_NAME="****"
   - USERNAME="azureuser"
 
   - echo "export GITHUB_TOKEN=$G_TOKEN" >> /home/$USERNAME/.bashrc
@@ -13,18 +13,14 @@ runcmd:
   # Allow azureuser to use Docker without sudo
   - usermod -aG docker azureuser
 
-  # Setup GitHub token in bashrc for both users
-  - echo "export GITHUB_TOKEN=" >> /home/azureuser/.bashrc
-  - echo "export GITHUB_TOKEN=" | sudo tee -a /root/.bashrc
-  - chown azureuser:azureuser /home/azureuser/.bashrc
 
   # Run all following commands as azureuser
-  - sudo -u azureuser bash -c '
+  - sudo -u azureuser bash -c "
       cd /home/azureuser &&
       git clone -b main "https://${GITHUB_TOKEN}@github.com/mfldosari/Stage10-docker-conatiner" &&
       cd Stage10-docker-conatiner/project &&
 
-      echo "KEY_VAULT_NAME=chatbot2-keyvault" > .env &&
+      echo "KEY_VAULT_NAME=$KEY_VAULT_NAME" > .env &&
 
       python3 -m venv myenv &&
       source myenv/bin/activate &&
