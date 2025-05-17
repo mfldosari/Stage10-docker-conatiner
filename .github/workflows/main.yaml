@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '**'
+      - '.github/workflows/main.yml'
+
   workflow_dispatch:
 env:
   KEY_VAULT_NAME: ${{ secrets.KEY_VAULT_NAME }}
@@ -91,3 +95,43 @@ jobs:
           curl -X POST -H 'Content-type: application/json' \
             --data "{\"text\":\"$MESSAGE\"}" \
             ${{ secrets.SLACK_WEBHOOK_URL }}
+            
+  build-and-deploy-image:
+    runs-on: ubuntu-latest
+    name: Build and Deploy Docker Image to Azure Container Apps
+    needs:
+      - Test-Python-for-vulnerability
+      - Dependencies-Security-Check
+      - Build-Docker-Image
+    if: |
+      needs.Test-Python-for-vulnerability.result == 'success' &&
+      needs.Dependencies-Security-Check.result == 'success' &&
+      needs.Build-Docker-Image.result == 'success'
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.FASTAPIAPPCON_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.FASTAPIAPPCON_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.FASTAPIAPPCON_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/project
+          _dockerfilePathKey_: _dockerfilePath_
+          registryUrl: dockerregistry643.azurecr.io
+          registryUsername: ${{ secrets.FASTAPIAPPCON_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.FASTAPIAPPCON_REGISTRY_PASSWORD }}
+          containerAppName: fastapi-app-con
+          resourceGroup: tr-stage10-rg
+          imageToBuild: dockerregistry643.azurecr.io/fastapi-app-con:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
