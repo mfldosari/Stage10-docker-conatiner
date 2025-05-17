@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 env:
   KEY_VAULT_NAME: ${{ secrets.KEY_VAULT_NAME }}
-  
+
 jobs:
   Test-Python-for-vulnerability:
     name: Scan Python files for vulnerability
@@ -38,7 +38,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r project/requirements.txt && pip install -r project/requirements.vm.txt
 
       - name: Install and run pip-audit
         run: |
