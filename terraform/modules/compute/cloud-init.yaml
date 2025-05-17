@@ -11,15 +11,20 @@ runcmd:
   - chown $USERNAME:$USERNAME /home/$USERNAME/.bashrc
 
   # Allow azureuser to use Docker without sudo
-  - usermod -aG docker $USERNAME
+  - usermod -aG docker azureuser
+
+  # Setup GitHub token in bashrc for both users
+  - echo "export GITHUB_TOKEN=" >> /home/azureuser/.bashrc
+  - echo "export GITHUB_TOKEN=" | sudo tee -a /root/.bashrc
+  - chown azureuser:azureuser /home/azureuser/.bashrc
 
   # Run all following commands as azureuser
-  - sudo -u $USERNAME bash -c "
-      cd /home/$USERNAME &&
-      git clone -b main https://$G_TOKEN@github.com/mfldosari/Stage10-docker-conatiner.git &&
-      cd $REPO_NAME &&
+  - sudo -u azureuser bash -c '
+      cd /home/azureuser &&
+      git clone -b main "https://${GITHUB_TOKEN}@github.com/mfldosari/Stage10-docker-conatiner" &&
+      cd Stage10-docker-conatiner/project &&
 
-      echo "KEY_VAULT_NAME=chatbot5-keyvault" > .env &&
+      echo "KEY_VAULT_NAME=chatbot2-keyvault" > .env &&
 
       python3 -m venv myenv &&
       source myenv/bin/activate &&
