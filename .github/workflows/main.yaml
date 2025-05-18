@@ -91,7 +91,7 @@ jobs:
              [ "${{ needs.Build-Docker-Image.result }}" == "success" ]; then
             MESSAGE="Secure Pipeline, rest assure Team, i also have pushed the code to production, thanks for relying on me, i won't disappoint you."
           else
-            MESSAGE="Secure Pipeline failed. Check GitHub Actions logs."
+            MESSAGE="Secure Pipeline failed. Check GitHub Actions logs. and don't worry i have not pushed the code to production. security is my first priority."
           fi
 
           curl -X POST -H 'Content-type: application/json' \
