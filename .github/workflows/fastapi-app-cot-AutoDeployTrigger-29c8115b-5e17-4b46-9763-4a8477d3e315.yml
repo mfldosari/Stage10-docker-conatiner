@@ -1,0 +1,48 @@
+name: Trigger auto deployment for fastapi-app-cot
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/fastapi-app-cot-AutoDeployTrigger-29c8115b-5e17-4b46-9763-4a8477d3e315.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.FASTAPIAPPCOT_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.FASTAPIAPPCOT_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.FASTAPIAPPCOT_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/project
+          _dockerfilePathKey_: _dockerfilePath_
+          registryUrl: dockerregistry643.azurecr.io
+          registryUsername: ${{ secrets.FASTAPIAPPCOT_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.FASTAPIAPPCOT_REGISTRY_PASSWORD }}
+          containerAppName: fastapi-app-cot
+          resourceGroup: tr-stage10-rg
+          imageToBuild: dockerregistry643.azurecr.io/fastapi-app-cot:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
