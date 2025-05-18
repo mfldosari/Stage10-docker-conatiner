@@ -8,6 +8,7 @@ WORKDIR /app
 COPY backend.py /app/
 COPY requirements.txt /app/
 
+RUN pip install pypdf
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -16,7 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Set environment variables (ensure these are configured in the environment or passed at runtime)
-#ENV KEY_VAULT_NAME="****"
+#ENV KEY_VAULT_NAME="*****"
 
 # Command to run FastAPI using uvicorn
 CMD ["uvicorn", "backend:app", "--host", "0.0.0.0", "--port", "8000"]
