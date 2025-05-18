@@ -5,3 +5,4 @@ azure-identity
 azure-keyvault-secrets
 numpy==1.26.4
 Pillow
+setuptools==65.5.1
