@@ -1,12 +1,12 @@
-pypdf==5.5.0
 langchain
 langchain-community  # Last version compatible with langsmith<0.1.0
 langchain-chroma
 langchain-openai==0.1.0
 chromadb==0.4.24
+pypdf
 fastapi==0.115.12
 openai==1.76.2
-pydantic==2.7.4
+pydantic==1.10.12  # Downgrade (langchain 0.1.4 needs Pydantic v1)
 psycopg2-binary==2.9.10
 python-dotenv==1.1.0
 azure-core==1.33.0
@@ -16,4 +16,3 @@ azure-keyvault-secrets==4.9.0
 azure-storage-blob==12.25.1
 numpy==1.26.4
 python-multipart
-setuptools==65.5.1
