@@ -7,7 +7,6 @@ This project builds a secure and scalable **chatbot backend infrastructure** on 
 ---
 
 ## 🧱 Components
-
 - **Azure Container App** → Hosts the FastAPI chatbot API
 - **VM (in subnet)** → Hosts Streamlit UI + ChromaDB for embeddings
 - **PostgreSQL DB** → Stores structured chat data
