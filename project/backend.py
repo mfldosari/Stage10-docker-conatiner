@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from openai import OpenAI
 from fastapi.responses import StreamingResponse
 from dotenv import load_dotenv
+from pypdf import PdfReader
 import json
 import psycopg2
 import os
