@@ -27,7 +27,8 @@ jobs:
       - name: Install Bandit and scan code
         run: |
           pip install bandit
-          bandit -r . || true
+          bandit -r . --severity-level high
+
 
   Dependencies-Security-Check:
     runs-on: ubuntu-latest
@@ -47,7 +48,7 @@ jobs:
       - name: Install and run pip-audit
         run: |
           pip install pip-audit
-          pip-audit || true
+          pip-audit
 
   Build-Docker-Image:
     runs-on: ubuntu-latest
@@ -80,6 +81,7 @@ jobs:
       - Test-Python-for-vulnerability
       - Dependencies-Security-Check
       - Build-Docker-Image
+      
     if: always()  # Always run this job, even if previous jobs fail
     steps:
       - name: Send Slack Notification
@@ -103,6 +105,7 @@ jobs:
       - Test-Python-for-vulnerability
       - Dependencies-Security-Check
       - Build-Docker-Image
+      - Notify-Slack
     if: |
       needs.Test-Python-for-vulnerability.result == 'success' &&
       needs.Dependencies-Security-Check.result == 'success' &&
