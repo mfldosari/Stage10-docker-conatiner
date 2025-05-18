@@ -8,8 +8,6 @@ WORKDIR /app
 COPY backend.py /app/
 COPY requirements.txt /app/
 
-RUN pip install pypdf
-
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
