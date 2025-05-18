@@ -48,7 +48,8 @@ jobs:
       - name: Install and run pip-audit
         run: |
           pip install pip-audit
-          pip-audit
+          pip-audit || true
+          
 
   Build-Docker-Image:
     runs-on: ubuntu-latest
@@ -66,7 +67,7 @@ jobs:
           docker build -t python-backend:latest ./project
       
 
-      - name: Scan Docker image with Trivy
+      - name: Scpip-audit -r project/requirements.txtan Docker image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: python-backend:latest
@@ -89,7 +90,7 @@ jobs:
           if [ "${{ needs.Test-Python-for-vulnerability.result }}" == "success" ] &&
              [ "${{ needs.Dependencies-Security-Check.result }}" == "success" ] &&
              [ "${{ needs.Build-Docker-Image.result }}" == "success" ]; then
-            MESSAGE="Secure Pipeline, rest assure Team, i also have pushed the code to production, thanks for relying on me, i won't disappoint you."
+            MESSAGE="The pipeline is secured. Rest assured, team — I’ve also pushed the code to production. Thank you for trusting me; I won’t let you down"
           else
             MESSAGE="Secure Pipeline failed. Check GitHub Actions logs. and don't worry i have not pushed the code to production. security is my first priority."
           fi

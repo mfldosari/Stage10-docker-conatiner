@@ -1,8 +1,8 @@
 pypdf==5.5.0
-langchain==0.3.25
-langchain-community==0.3.24
-langchain-chroma==0.2.0
-langchain-openai==0.3.1
+langchain
+langchain-community  # Last version compatible with langsmith<0.1.0
+langchain-chroma
+langchain-openai==0.1.0
 chromadb==0.4.24
 fastapi==0.115.12
 openai==1.76.2
